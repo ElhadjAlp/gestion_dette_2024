@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Clients{% endblock %}
+
+{% block main %}
+<div class="flex flex-col md:flex-row min-h-screen">
+    <!-- Sidebar
+    <div class="w-full md:w-1/4 p-4 bg-gray-100 min-h-screen">
+        <h2 class="text-xl font-semibold mb-4">Menu</h2>
+        <ul>
+            <li class="mb-2">
+                <a href="{{ path('clients.index') }}" class="text-blue-500">Clients</a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ path('articles.index') }}" class="text-blue-500">Articles</a>
+            </li>
+        </ul>
+    </div> -->
+
+   <!-- Main Content -->
+   <div class="w-full md:w-3/4 p-4">
+    <!-- Client Search Form -->
+    <div class="bg-white shadow-md rounded-lg p-4 mb-8">
+        {{ form_start(formSearch, { 'method': 'GET' }) }}
+            <div class="flex mb-4">
+              <div class="mb-2 text-red-500">
+                {{ form_errors(formSearch.telephone) }}
+            </div>
+                {{ form_widget(formSearch.telephone, { 'attr': {'class': 'border border-gray-300 p-2 rounded-l w-full placeholder-gray-500', 'placeholder': 'Téléphone'}}) }}
+                {{ form_widget(formSearch.Search, { 'attr': {'class': 'bg-green-500 text-white px-4 rounded-r cursor-pointer'}}) }}
+            </div>
+        {{ form_end(formSearch) }}
+
+            <table class="min-w-full bg-white border border-gray-200 rounded-md shadow-sm">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="p-2">Téléphone</th>
+                        <th class="p-2">Surname</th>
+                        <th class="p-2">Adresse</th>
+                        <th class="p-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in datas %}
+                        <tr class="border-b">
+                            <td class="p-2">{{ client.telephone }}</td>
+                            <td class="p-2">{{ client.surname }}</td>
+                            <td class="p-2">{{ client.adresse }}</td>
+                            <td class="p-2">
+                                <a href="#" class="bg-blue-500 text-white px-2 py-1 rounded">Dettes</a>
+                                <a href="#" class="bg-red-500 text-white px-2 py-1 rounded">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+<nav class="flex justify-end mt-4">
+    <ul class="flex space-x-2">
+        <li class="page-item {{ page == 1 ? 'disabled' : '' }}">
+            <a class="page-link" href="{{ page > 1 ? '?page=' ~ (page - 1) : '#' }}" aria-label="Previous">
+                &laquo;
+            </a>
+        </li>
+        {% for i in 1..maxPage %}
+            <li class="page-item {{ i == page ? 'active' : '' }}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+        <li class="page-item {{ page == maxPage ? 'disabled' : '' }}">
+            <a class="page-link" href="{{ page < maxPage ? '?page=' ~ (page + 1) : '#' }}" aria-label="Next">
+                &raquo;
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        </div>
+
+        <!-- Client Registration Form -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Enregistrement d'un client</h2>
+            {{ form(formClient) }}
+            <!-- {{ form_start(formClient) }}
+
+            {{ form_end(formClient) }} -->
+            <!-- <form method="POST" action="">
+                <div class="mb-4">
+                    <label for="telephone" class="block text-sm font-medium text-gray-700">Téléphone</label>
+                    <input type="text" name="telephone" id="telephone" class="border border-gray-300 p-2 rounded w-full">
+                </div>
+                <div class="mb-4">
+                    <label for="surname" class="block text-sm font-medium text-gray-700">Surname</label>
+                    <input type="text" name="surname" id="surname" class="border border-gray-300 p-2 rounded w-full">
+                </div>
+                <div class="mb-4">
+                    <label for="adresse" class="block text-sm font-medium text-gray-700">Adresse</label>
+                    <input type="text" name="adresse" id="adresse" class="border border-gray-300 p-2 rounded w-full">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Enregistrer</button>
+                </div>
+            </form> -->
+        </div>
+    </div>
+</div>
+{% endblock %}

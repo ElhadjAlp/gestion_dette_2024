@@ -1,17 +1,74 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bienvenue !{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex min-h-screen bg-gray-200 font-sans">
+    <!-- Sidebar -->
+    <nav class="w-64 bg-gray-800 text-white p-6">
+        <h2 class="text-xl font-semibold mb-4">Menu</h2>
+        <ul class="space-y-4">
+            <li>
+                <a href="{{ path('clients.index') }}" class="block p-2 hover:bg-gray-700 rounded">Clients</a>
+            </li>
+            <li>
+                <a href="{{ path('articles.index') }}" class="block p-2 hover:bg-gray-700 rounded">Articles</a>
+            </li>
+            <li>
+                <a href="#" class="block p-2 hover:bg-gray-700 rounded">Link</a>
+            </li>
+            <li>
+                <div class="relative">
+                    <button id="dropdownButton" class="w-full text-left p-2 hover:bg-gray-700 rounded focus:outline-none">
+                        Dropdown
+                    </button>
+                    <ul id="dropdownMenu" class="mt-2 ml-2 space-y-2 hidden">
+                        <li><a href="#" class="block p-2 hover:bg-gray-700 rounded">Action 1</a></li>
+                        <li><a href="#" class="block p-2 hover:bg-gray-700 rounded">Action 2</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+    <!-- Main Content -->
+    <div class="flex-1 p-8">
+        {% block body %}
+        <header class="bg-white shadow p-4 mb-8">
+            <h1 class="text-2xl font-bold">Gestion des Clients</h1>
+        </header>
+        
+        <main>
+            {% block main %}{% endblock %}
+        </main>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownButton = document.getElementById('dropdownButton');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            dropdownButton.addEventListener('click', function () {
+                dropdownMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
 </html>
+
